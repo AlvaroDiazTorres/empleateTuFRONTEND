@@ -1,25 +1,46 @@
-import { useEffect, useState } from 'react'
+import { ChangeEvent, useEffect, useState } from 'react'
 import Offer from '../models/Offer'
 import { OfferService } from '../services/offer.services'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
 
 function OfferList() {
   const [offers, setOffers] = useState<Offer[]>()
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null> (null)
   const [loading, setLoading] = useState(true)
+  const[queryParams, setQueryParams]=useSearchParams()
+  const titleQuery = queryParams.get("title") || ''
+
   useEffect(()=>{
     OfferService.getAll()
           .then(setOffers)
           .catch((error)=>setError(error.message))
           .finally(()=>setLoading(false))
     
-  },[])
+  },[titleQuery])
 
-  
+  const handleSearchChange = (e:ChangeEvent<HTMLInputElement>) =>{
+    const newTitle = e.target.value
+    setQueryParams(newTitle ? {title: newTitle} : {})
+  }
+
+  const handleDelete = async (id:number) =>{
+    if(!window.confirm('¿Estás seguro de que quieres borrar esta oferta?')) return
+    toast.error('Error bobo')
+    try{
+      await OfferService.delete(id)
+      setOffers(offers?.filter(offer => offer.id !== id))
+      toast.success('Oferta borrada correctamente!')
+    }catch(error){
+      setError(error instanceof Error ? error.message : 'Error desconocido')
+
+    }
+  }
   return (
     <div  className='text-white'>
       <h1>Lista de ofertas</h1>
       <Link to="/offers/new">Añadir nueva oferta</Link>
+      <input value={titleQuery} onChange={handleSearchChange} placeholder='Buscar por título'/>
       {loading && <p>Loading...</p>}
       {error && <p>{error}</p>}
       {offers?.length === 0 && <p>No hay ofertas disponibles</p>}
@@ -28,7 +49,7 @@ function OfferList() {
             {offer.title}
             <Link to={`/offers/${offer.id}`}>Ver</Link>
             <Link to={`/offers/edit/${offer.id}`}>Editar</Link>
-            <button>Borrar</button>
+            <button onClick={() => handleDelete(offer.id)}>Borrar</button>
           </div>
       )}
       

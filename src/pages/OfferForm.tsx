@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { ChangeEvent, FormEvent, useEffect, useState } from 'react'
 import Offer from '../models/Offer'
 import { OfferService } from '../services/offer.services'
 import { useNavigate, useParams } from 'react-router-dom'

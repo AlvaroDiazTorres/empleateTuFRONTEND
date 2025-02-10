@@ -9,6 +9,7 @@ import Navbar from './components/Navbar'
 import OffertList from './pages/OfferList'
 import OffertForm from './pages/OfferForm'
 import OfferDetail from './pages/OfferDetail'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
 
@@ -17,6 +18,10 @@ function App() {
       <BrowserRouter>
       <div className='flex flex-col h-screen'>
         <Navbar />
+        <Toaster
+          position="top-center"
+          reverseOrder={true}
+        />
         <div className='container mx-auto flex grow justify-center items-center'>
           <Routes>
             <Route path="/" element={<Home/>} />
