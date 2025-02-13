@@ -3,14 +3,27 @@ import { fetchAPI } from "../utils/FetchAPI"
 const API_URL_BASE = import.meta.env.VITE_API_URL_BASE
 
 export class OfferService {
-    static async getAll(title?:string) {
-        let url = API_URL_BASE+'/offers'
-        if(title) url+= '?title='+title
-        return await fetchAPI(url)
+    static async search(title?: string) {
+        let url = API_URL_BASE+'/offers?'
+        if(title) url += 'title='+title
+
+        return await fetchAPI(url,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
     }
 
     static async getById(id:number) {
-        return await fetchAPI(API_URL_BASE+'/offers/'+id)
+        return await fetchAPI(API_URL_BASE+'/offers/'+id,{
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        })
     }
 
     static async create(offer: Partial<Offer>) {
@@ -34,14 +47,13 @@ export class OfferService {
             credentials: 'include'
         })
     }
-
-    static async delete(id:number){
-        return await fetchAPI(API_URL_BASE+"/offers/"+id,{
+    static async delete(id: number){
+        return await fetchAPI(API_URL_BASE+'/offers/'+id, {
             method: 'DELETE',
             headers: {
-                "Content-Type":"application/json"
+                'Content-Type': 'application/json'
             },
-            credentials:'include'
+            credentials: 'include'
         })
     }
 
