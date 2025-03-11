@@ -9,6 +9,8 @@ function OfferDetail() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+
+
   useEffect(()=>{
     setLoading(true)
     //if(!id) return
@@ -19,25 +21,29 @@ function OfferDetail() {
       .finally(()=>setLoading(false))
   },[id])
 
+
+
+
   if(loading) return <div>Loading...</div>
   if(error) return <div>Error: {error}</div>
   if(!offer) return <div>Ofertas no encontradas</div>
 
   return (
     <div className="text-white">
-      <div>Titulo: {offer.title}</div>
-      <div>Descripcion: {offer.description}</div>
+      <div className="text-4xl font-extrabold dark:text-white">{offer.title}</div>
+      <div className="text-2xl font-extrabold dark:text-white">{offer.description}</div>
       <div>Activo: {offer.active?'SI':'NO'}</div>
       <div>Email de contacto: {offer.contactEmail}</div>
       <div>Fecha publicación: {new Date(offer.published).toLocaleString()}</div>
       <div>Fecha finalización: {new Date(offer.expired).toLocaleString()}</div>
-      <div>Localización:</div>
       {offer.location &&
+      <div>
+        Localización:
       <iframe width="100%" height="300" loading="lazy" 
       src={`https://www.google.com/maps?q=${offer.location}&output=embed`}
       >
-
       </iframe>
+    </div>
   }
     </div>
   )

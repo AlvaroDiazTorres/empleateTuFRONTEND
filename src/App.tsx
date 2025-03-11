@@ -12,15 +12,19 @@ import OfferDetail from "./pages/OfferDetail";
 import { Toaster } from "react-hot-toast";
 import Footer from "./components/Footer";
 import CategoryManager from "./pages/CategoryManager";
+import CharacterForm from "./pages/CharacterForm";
+import CharacterList from "./pages/CharacterList";
+
 
 function App() {
+
   return (
     <>
       <BrowserRouter>
-        <div className="flex flex-col">
+        <div className="flex flex-col  h-screen ">
           <Navbar />
           <Toaster position="top-center" reverseOrder={false} />
-          <div className="flex grow justify-center items-center">
+          <div className="flex grow justify-center items-center mt-24">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -32,10 +36,13 @@ function App() {
               <Route path="/offers/new" element={<OffertForm />} />
               <Route path="/offers/edit/:id" element={<OffertForm />} />
               <Route path="/categories" element={<CategoryManager />} />
+              <Route path="/character" element={<CharacterList/>} />
+              <Route path="/character/new" element={<CharacterForm/>}/>
             </Routes>
           </div>
           <Footer />
         </div>
+      
       </BrowserRouter>
     </>
   );
